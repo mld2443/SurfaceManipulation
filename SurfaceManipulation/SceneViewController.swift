@@ -17,7 +17,7 @@ class SceneViewController: NSViewController {
 		super.awakeFromNib()
 		
 		// create a new scene
-		let scene = SCNScene(named: "art.scnassets/ship.scn")!
+		let scene = SCNScene()
 		
 		// create and add a camera to the scene
 		let cameraNode = SCNNode()
@@ -41,15 +41,27 @@ class SceneViewController: NSViewController {
 		ambientLightNode.light!.color = NSColor.darkGrayColor()
 		scene.rootNode.addChildNode(ambientLightNode)
 		
-		// retrieve the ship node
-		let ship = scene.rootNode.childNodeWithName("ship", recursively: true)!
+		
+		// define my own custom shape
+		let points = [SCNVector3(x: -1, y: 1, z: 1), SCNVector3(x: 1, y: -1, z: 1), SCNVector3(x: 1, y: 1, z: -1), SCNVector3(x: -1, y: -1, z: -1)]
+		let vertices = SCNGeometrySource(vertices: points, count: points.count)
+
+		let face0 = SCNGeometryElement(indices: [CInt(0),CInt(1),CInt(2)], primitiveType: .TriangleStrip)
+		let face1 = SCNGeometryElement(indices: [CInt(0),CInt(2),CInt(3)], primitiveType: .TriangleStrip)
+		let face2 = SCNGeometryElement(indices: [CInt(0),CInt(3),CInt(1)], primitiveType: .TriangleStrip)
+		let face3 = SCNGeometryElement(indices: [CInt(1),CInt(3),CInt(2)], primitiveType: .TriangleStrip)
+		
+		let shape = SCNGeometry(sources: [vertices], elements: [face0, face1, face2, face3])
+		let tetra = SCNNode(geometry: shape)
+		scene.rootNode.addChildNode(tetra)
+		
 		
 		// animate the 3d object
 		let animation = CABasicAnimation(keyPath: "rotation")
 		animation.toValue = NSValue(SCNVector4: SCNVector4(x: CGFloat(0), y: CGFloat(1), z: CGFloat(0), w: CGFloat(M_PI)*2))
 		animation.duration = 3
 		animation.repeatCount = MAXFLOAT //repeat forever
-		ship.addAnimation(animation, forKey: nil)
+		tetra.addAnimation(animation, forKey: nil)
 		
 		// set the scene to the view
 		self.sceneView!.scene = scene
