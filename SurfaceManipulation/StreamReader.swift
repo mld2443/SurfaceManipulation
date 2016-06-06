@@ -65,12 +65,12 @@ public class StreamReader  {
 		}
 		
 		// Convert complete line (excluding the delimiter) to a string:
-		let line = NSString(data: buffer.subdataWithRange(NSMakeRange(0, range.location)),
+		let line = String(data: buffer.subdataWithRange(NSMakeRange(0, range.location)),
 		                    encoding: encoding)
 		// Remove line (and the delimiter) from the buffer:
 		buffer.replaceBytesInRange(NSMakeRange(0, range.location + range.length), withBytes: nil, length: 0)
 		
-		return line as String?
+		return line
 	}
 	
 	/// Start reading from the beginning of file.

@@ -210,7 +210,7 @@ extension Manifold {
 		}
 		
 		let scnVertices = SCNGeometrySource(vertices: points, count: points.count)
-		let scnNormals = SCNGeometrySource(vertices: normalVectors, count: points.count)
+		let scnNormals = SCNGeometrySource(vertices: normalVectors, count: normalVectors.count)
 		
 		return SCNGeometry(sources: [scnVertices, scnNormals], elements: scnFaces)
 	}

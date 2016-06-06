@@ -43,7 +43,7 @@ class SceneViewController: NSViewController {
 		
 		
 		// define my own custom shape
-		let manifold = Manifold(path: NSBundle.mainBundle().pathForResource("cube", ofType: "obj")!)
+		let manifold = Manifold(path: NSBundle.mainBundle().pathForResource("gourd", ofType: "obj")!)
 		let shape = SCNNode(geometry: manifold!.generateSCNGeometry())
 		scene.rootNode.addChildNode(shape)
 		
