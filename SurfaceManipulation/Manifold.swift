@@ -71,13 +71,14 @@ public class Manifold {
 		return true
 	}()
 	
-	public init?(path: String, scale: Float = 1.0) {
-		guard let stream = StreamReader(path: path) else {
+	public init() { }
+	
+	public init?(data: NSData, scale: Float = 1.0) {
+		guard let dataString = String(data: data, encoding: NSUTF8StringEncoding)?.componentsSeparatedByString("\n") else {
 			return nil
 		}
 		
-		// iterate through the file and add in vertices and faces
-		while let line = stream.nextLine() {
+		for line in dataString {
 			// check if the line is a comment
 			if line.hasPrefix("#") {
 			}
@@ -89,7 +90,7 @@ public class Manifold {
 				
 				assert(values.count == 3)
 				
-				let x = values[0] * scale, y = values[1] * scale, z = values[2] * scale
+				let x = values[0], y = values[1], z = values[2]
 				
 				if x < AABB.min.x {
 					AABB.min.x = x
@@ -112,6 +113,12 @@ public class Manifold {
 				vertices.append(Vertex(pos: float3(x, y, z)))
 			}
 				
+			else if line.hasPrefix("vn ") { }
+				
+			else if line.hasPrefix("vt ") { }
+				
+			else if line.hasPrefix("vp ") { }
+				
 			// Check for faces
 			else if line.hasPrefix("f ") {
 				var vertexList = [Vertex]()
@@ -124,9 +131,11 @@ public class Manifold {
 				
 				addFace(vertexList)
 			}
+				
+			else if line.trim != "" {
+				return nil
+			}
 		}
-		
-		stream.close()
 	}
 	
 	internal func addFace(vertexList: [Vertex]) {

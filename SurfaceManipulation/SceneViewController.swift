@@ -11,10 +11,18 @@ import QuartzCore
 
 class SceneViewController: NSViewController {
 	
+	var docmunet: Document?
+
 	@IBOutlet weak var sceneView: SceneView!
 	
 	override func awakeFromNib(){
 		super.awakeFromNib()
+		
+		// identify over the document
+		let view = self.view
+		let window = view.window
+		let windowController = window?.windowController
+		docmunet = windowController?.document as? Document
 		
 		// create a new scene
 		let scene = SCNScene()
@@ -41,12 +49,10 @@ class SceneViewController: NSViewController {
 		ambientLightNode.light!.color = NSColor.darkGrayColor()
 		scene.rootNode.addChildNode(ambientLightNode)
 		
-		
 		// define my own custom shape
-		let manifold = Manifold(path: NSBundle.mainBundle().pathForResource("gourd", ofType: "obj")!)
-		let shape = SCNNode(geometry: manifold!.generateSCNGeometry())
+		let manifold = docmunet?.shape
+		let shape = SCNNode(geometry: manifold?.generateSCNGeometry())
 		scene.rootNode.addChildNode(shape)
-		
 		
 		// animate the 3d object
 		let animation = CABasicAnimation(keyPath: "rotation")
