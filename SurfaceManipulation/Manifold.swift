@@ -1,20 +1,8 @@
-//
-//  Document.swift
-//  SurfaceManipulation
-//
-//  Created by Matthew Dillard on 6/6/16.
-//  Copyright © 2016 Matthew Dillard. All rights reserved.
-//
-
-import Cocoa
+import Foundation
+import SceneKit
 import simd
 
-enum FileIOError: ErrorType {
-	case InvalidFileEncoding
-	case InvalidFileFormat(unexpectedToken: String)
-}
-
-class Document: NSDocument {
+public class Manifold {
 	internal var faces = [Face]()
 	internal var edges = [Edge]()
 	internal var vertices = [Vertex]()
@@ -27,7 +15,7 @@ class Document: NSDocument {
 	
 	internal var edgeHash = [Int: Edge]()
 	
-	lazy var valid: Bool = {
+	public lazy var valid: Bool = {
 		for vertex in self.vertices {
 			if vertex.he == nil {
 				return false
@@ -83,34 +71,13 @@ class Document: NSDocument {
 		return true
 	}()
 	
-	override init() {
-	    super.init()
-		// Add your subclass-specific initialization here.
-	}
-
-	override class func autosavesInPlace() -> Bool {
-		return true
-	}
-
-	override func makeWindowControllers() {
-		// Returns the Storyboard that contains your Document window.
-		let storyboard = NSStoryboard(name: "Main", bundle: nil)
-		let windowController = storyboard.instantiateControllerWithIdentifier("Document Window Controller") as! NSWindowController
-		self.addWindowController(windowController)
-	}
-
-	override func dataOfType(typeName: String) throws -> NSData {
-		// Insert code here to write your document to data of the specified type. If outError != nil, ensure that you create and set an appropriate error when returning nil.
-		// You can also choose to override fileWrapperOfType:error:, writeToURL:ofType:error:, or writeToURL:ofType:forSaveOperation:originalContentsURL:error: instead.
-		throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
-	}
-
-	override func readFromData(data: NSData, ofType typeName: String) throws {
-		guard let dataString = String(data: data, encoding: NSUTF8StringEncoding)?.componentsSeparatedByString("\n") else {
-			throw FileIOError.InvalidFileEncoding
+	public init?(path: String, scale: Float = 1.0) {
+		guard let stream = StreamReader(path: path) else {
+			return nil
 		}
 		
-		for line in dataString {
+		// iterate through the file and add in vertices and faces
+		while let line = stream.nextLine() {
 			// check if the line is a comment
 			if line.hasPrefix("#") {
 			}
@@ -122,7 +89,7 @@ class Document: NSDocument {
 				
 				assert(values.count == 3)
 				
-				let x = values[0], y = values[1], z = values[2]
+				let x = values[0] * scale, y = values[1] * scale, z = values[2] * scale
 				
 				if x < AABB.min.x {
 					AABB.min.x = x
@@ -145,12 +112,6 @@ class Document: NSDocument {
 				vertices.append(Vertex(pos: float3(x, y, z)))
 			}
 				
-			else if line.hasPrefix("vn ") { }
-				
-			else if line.hasPrefix("vt ") { }
-				
-			else if line.hasPrefix("vp ") { }
-				
 			// Check for faces
 			else if line.hasPrefix("f ") {
 				var vertexList = [Vertex]()
@@ -163,13 +124,11 @@ class Document: NSDocument {
 				
 				addFace(vertexList)
 			}
-			
-			else if line.trim != "" {
-				throw FileIOError.InvalidFileFormat(unexpectedToken: line)
-			}
 		}
+		
+		stream.close()
 	}
-
+	
 	internal func addFace(vertexList: [Vertex]) {
 		func getEdge(v1: Vertex, _ v2: Vertex) -> Edge {
 			let hashValue = v1.hashValue ^ v2.hashValue
@@ -219,3 +178,40 @@ class Document: NSDocument {
 	}
 }
 
+extension Manifold {
+	public func generateSCNGeometry() -> SCNGeometry {
+		var points: [SCNVector3] = []
+		var normalVectors: [SCNVector3] = []
+		
+		var scnFaces: [SCNGeometryElement] = []
+		
+		for face in faces {
+			let startIndex = points.count
+			
+			let (facePoints, normal) = face.generateVeticesAndNormal()
+			let count = facePoints.count
+			points.appendContentsOf(facePoints)
+			normalVectors.appendContentsOf([SCNVector3](count: count, repeatedValue: normal))
+			
+			var indices: [CInt] = []
+			var step = 0
+			
+			for index in 0..<count {
+				if index % 2 == 0 {
+					indices.append(CInt(startIndex + count - step - 1))
+				}
+				else {
+					indices.append(CInt(startIndex + step))
+					step = step + 1
+				}
+			}
+			
+			scnFaces.append(SCNGeometryElement(indices: indices, primitiveType: .TriangleStrip))
+		}
+		
+		let scnVertices = SCNGeometrySource(vertices: points, count: points.count)
+		let scnNormals = SCNGeometrySource(vertices: normalVectors, count: normalVectors.count)
+		
+		return SCNGeometry(sources: [scnVertices, scnNormals], elements: scnFaces)
+	}
+}

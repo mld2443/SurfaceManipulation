@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C91DD08A1D05B1FE0086EC53 /* Halfedge.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91DD0891D05B1FE0086EC53 /* Halfedge.swift */; };
+		C91DD08E1D05B2070086EC53 /* Manifold.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91DD08B1D05B2070086EC53 /* Manifold.swift */; };
+		C91DD0901D05B2070086EC53 /* StreamReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91DD08D1D05B2070086EC53 /* StreamReader.swift */; };
+		C91DD0921D05B20C0086EC53 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91DD0911D05B20C0086EC53 /* Extensions.swift */; };
+		C932BC5E1D05E4D200F481B3 /* cube.obj in Resources */ = {isa = PBXBuildFile; fileRef = C932BC5A1D05E4D200F481B3 /* cube.obj */; };
+		C932BC5F1D05E4D200F481B3 /* dodecahedron.obj in Resources */ = {isa = PBXBuildFile; fileRef = C932BC5B1D05E4D200F481B3 /* dodecahedron.obj */; };
+		C932BC601D05E4D200F481B3 /* gourd.obj in Resources */ = {isa = PBXBuildFile; fileRef = C932BC5C1D05E4D200F481B3 /* gourd.obj */; };
+		C932BC611D05E4D200F481B3 /* tetra.obj in Resources */ = {isa = PBXBuildFile; fileRef = C932BC5D1D05E4D200F481B3 /* tetra.obj */; };
 		C97D83BC1D0592D800CC40E0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97D83BB1D0592D800CC40E0 /* AppDelegate.swift */; };
 		C97D83C01D0592D800CC40E0 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97D83BF1D0592D800CC40E0 /* Document.swift */; };
 		C97D83C21D0592D800CC40E0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C97D83C11D0592D800CC40E0 /* Assets.xcassets */; };
@@ -27,6 +35,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C91DD0891D05B1FE0086EC53 /* Halfedge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Halfedge.swift; sourceTree = "<group>"; };
+		C91DD08B1D05B2070086EC53 /* Manifold.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Manifold.swift; sourceTree = "<group>"; };
+		C91DD08D1D05B2070086EC53 /* StreamReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamReader.swift; sourceTree = "<group>"; };
+		C91DD0911D05B20C0086EC53 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		C932BC5A1D05E4D200F481B3 /* cube.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cube.obj; sourceTree = "<group>"; };
+		C932BC5B1D05E4D200F481B3 /* dodecahedron.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dodecahedron.obj; sourceTree = "<group>"; };
+		C932BC5C1D05E4D200F481B3 /* gourd.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gourd.obj; sourceTree = "<group>"; };
+		C932BC5D1D05E4D200F481B3 /* tetra.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tetra.obj; sourceTree = "<group>"; };
 		C97D83B81D0592D800CC40E0 /* SurfaceManipulation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SurfaceManipulation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C97D83BB1D0592D800CC40E0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C97D83BF1D0592D800CC40E0 /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
@@ -58,6 +74,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C91DD0931D05B2A30086EC53 /* Manifold */ = {
+			isa = PBXGroup;
+			children = (
+				C91DD0891D05B1FE0086EC53 /* Halfedge.swift */,
+				C91DD08B1D05B2070086EC53 /* Manifold.swift */,
+			);
+			name = Manifold;
+			sourceTree = "<group>";
+		};
+		C91DD0941D05B2B60086EC53 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				C91DD0911D05B20C0086EC53 /* Extensions.swift */,
+				C91DD08D1D05B2070086EC53 /* StreamReader.swift */,
+			);
+			name = Utility;
+			sourceTree = "<group>";
+		};
+		C932BC591D05E4C600F481B3 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C932BC5A1D05E4D200F481B3 /* cube.obj */,
+				C932BC5B1D05E4D200F481B3 /* dodecahedron.obj */,
+				C932BC5C1D05E4D200F481B3 /* gourd.obj */,
+				C932BC5D1D05E4D200F481B3 /* tetra.obj */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
 		C97D83AF1D0592D800CC40E0 = {
 			isa = PBXGroup;
 			children = (
@@ -79,6 +124,9 @@
 		C97D83BA1D0592D800CC40E0 /* SurfaceManipulation */ = {
 			isa = PBXGroup;
 			children = (
+				C932BC591D05E4C600F481B3 /* Models */,
+				C91DD0941D05B2B60086EC53 /* Utility */,
+				C91DD0931D05B2A30086EC53 /* Manifold */,
 				C97D83BB1D0592D800CC40E0 /* AppDelegate.swift */,
 				C97D83BF1D0592D800CC40E0 /* Document.swift */,
 				C97D83DA1D0592F900CC40E0 /* SceneViewController.swift */,
@@ -180,6 +228,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C932BC5E1D05E4D200F481B3 /* cube.obj in Resources */,
+				C932BC5F1D05E4D200F481B3 /* dodecahedron.obj in Resources */,
+				C932BC611D05E4D200F481B3 /* tetra.obj in Resources */,
+				C932BC601D05E4D200F481B3 /* gourd.obj in Resources */,
 				C97D83C21D0592D800CC40E0 /* Assets.xcassets in Resources */,
 				C97D83C51D0592D800CC40E0 /* Main.storyboard in Resources */,
 			);
@@ -199,7 +251,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C91DD08A1D05B1FE0086EC53 /* Halfedge.swift in Sources */,
+				C91DD0921D05B20C0086EC53 /* Extensions.swift in Sources */,
+				C91DD08E1D05B2070086EC53 /* Manifold.swift in Sources */,
 				C97D83DD1D0592F900CC40E0 /* SceneView.swift in Sources */,
+				C91DD0901D05B2070086EC53 /* StreamReader.swift in Sources */,
 				C97D83DC1D0592F900CC40E0 /* SceneViewController.swift in Sources */,
 				C97D83BC1D0592D800CC40E0 /* AppDelegate.swift in Sources */,
 				C97D83C01D0592D800CC40E0 /* Document.swift in Sources */,
@@ -387,6 +443,7 @@
 				C97D83D61D0592D800CC40E0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C97D83D71D0592D800CC40E0 /* Build configuration list for PBXNativeTarget "SurfaceManipulationTests" */ = {
 			isa = XCConfigurationList;
@@ -395,6 +452,7 @@
 				C97D83D91D0592D800CC40E0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
