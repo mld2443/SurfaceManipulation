@@ -87,6 +87,21 @@ extension Face {
 }
 
 
+extension Vertex {
+	public var data : NSData? {
+		let value = "v \(pos.x) \(pos.y) \(pos.z)\n"
+		
+		return value.dataUsingEncoding(NSUTF8StringEncoding)
+	}
+}
+
+extension Face {
+	public var data : NSMutableData {
+		return NSMutableData()
+	}
+}
+
+
 // MARK: Hashable stuff
 extension Vertex: Hashable {
 	public var hashValue: Int { return pos.hashValue }

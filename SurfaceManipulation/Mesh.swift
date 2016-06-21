@@ -147,6 +147,8 @@ public class Mesh {
 	}
 	
 	internal func addFace(vertexList: [Vertex]) {
+		/// Checks if there exists an edge between two vertices already,
+		/// returns existing edge if so, or creates one and returns it.
 		func getEdge(v1: Vertex, _ v2: Vertex) -> Edge {
 			let hashValue = v1.hashValue ^ v2.hashValue
 			
@@ -166,23 +168,21 @@ public class Mesh {
 		
 		var first: Halfedge?, prev: Halfedge?
 		
-		for (this, next) in zip(vertexList, rotatedList) {
-			let e = getEdge(this, next)
+		for (v1, v2) in zip(vertexList, rotatedList) {
+			let e = getEdge(v1, v2)
 			
-			halfedges.append(Halfedge(f: faces.last!, e: e, o: this, prev: prev, flip: e.he))
+			halfedges.append(Halfedge(f: faces.last!, e: e, o: v1, prev: prev, flip: e.he))
 			
-			if this !== vertexList.first! {
+			if v1 !== vertexList.first! {
 				prev!.next = halfedges.last!
 			}
 			
-			if e.he != nil {
-				e.he!.flip = halfedges.last!
-			}
+			e.he?.flip = halfedges.last!
 			
 			prev = halfedges.last
 			e.he = prev!
 			
-			if this === vertexList.first! {
+			if v1 === vertexList.first! {
 				first = prev
 			}
 			
@@ -190,7 +190,7 @@ public class Mesh {
 		}
 		
 		prev!.next = first
-		faces.last!.he = halfedges.last
+		faces.last!.he = first!
 		first!.prev = halfedges.last
 	}
 }
@@ -230,5 +230,41 @@ extension Mesh {
 		let scnNormals = SCNGeometrySource(vertices: normalVectors, count: normalVectors.count)
 		
 		return SCNGeometry(sources: [scnVertices, scnNormals], elements: scnFaces)
+	}
+}
+
+extension Mesh {
+	public var data : NSMutableData {
+		let meshData = NSMutableData()
+		
+		meshData.appendData("# \(vertices.count) vertices, \(faces.count) faces\n".dataUsingEncoding(NSUTF8StringEncoding)!)
+		
+		var index = 1
+		var backTrace: [Vertex : Int] = [:]
+		
+		for vertex in vertices {
+			guard let vertexData = vertex.data else {
+				print("Error on vertex \(index)")
+				return NSMutableData()
+			}
+			
+			meshData.appendData(vertexData)
+			backTrace[vertex] = index
+			index = index + 1
+		}
+		
+		for face in faces {
+			var output = "f"
+			
+			for vertex in face.vertices {
+				output += " \(backTrace[vertex]!)"
+			}
+			
+			output += "\n"
+			
+			meshData.appendData(output.dataUsingEncoding(NSUTF8StringEncoding)!)
+		}
+		
+		return meshData
 	}
 }
