@@ -11,18 +11,18 @@ import QuartzCore
 
 class SceneViewController: NSViewController {
 	
-	var docmunet: Document?
+	var document: Document?
 
 	@IBOutlet weak var sceneView: SceneView!
 	
-	override func awakeFromNib(){
-		super.awakeFromNib()
+	override func viewWillAppear() {
+		super.viewWillAppear()
 		
 		// identify over the document
 		let view = self.view
 		let window = view.window
 		let windowController = window?.windowController
-		docmunet = windowController?.document as? Document
+		document = windowController?.document as? Document
 		
 		// create a new scene
 		let scene = SCNScene()
@@ -50,7 +50,7 @@ class SceneViewController: NSViewController {
 		scene.rootNode.addChildNode(ambientLightNode)
 		
 		// define my own custom shape
-		let manifold = docmunet?.shape
+		let manifold = document?.shape
 		let shape = SCNNode(geometry: manifold?.generateSCNGeometry())
 		scene.rootNode.addChildNode(shape)
 		
@@ -73,5 +73,4 @@ class SceneViewController: NSViewController {
 		// configure the view
 		self.sceneView!.backgroundColor = NSColor.blackColor()
 	}
-	
 }
