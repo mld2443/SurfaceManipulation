@@ -2,7 +2,7 @@ import Foundation
 import SceneKit
 import simd
 
-public class Manifold {
+public class Mesh {
 	internal var faces = [Face]()
 	internal var edges = [Edge]()
 	internal var vertices = [Vertex]()
@@ -16,15 +16,6 @@ public class Manifold {
 	internal var edgeHash = [Int: Edge]()
 	
 	public lazy var valid: Bool = {
-		for vertex in self.vertices {
-			if vertex.he == nil {
-				return false
-			}
-			if vertex.he!.o !== vertex {
-				return false
-			}
-		}
-		
 		for face in self.faces {
 			if face.he == nil {
 				return false
@@ -39,6 +30,23 @@ public class Manifold {
 				
 				edge = edge.next!
 			} while edge !== face.he!
+		}
+		
+		return true
+	}()
+	
+	public lazy var manifold: Bool = {
+		if !self.valid {
+			return false
+		}
+		
+		for vertex in self.vertices {
+			if vertex.he == nil {
+				return false
+			}
+			if vertex.he!.o !== vertex {
+				return false
+			}
 		}
 		
 		for halfedge in self.halfedges {
@@ -71,13 +79,14 @@ public class Manifold {
 		return true
 	}()
 	
-	public init?(path: String, scale: Float = 1.0) {
-		guard let stream = StreamReader(path: path) else {
+	public init() { }
+	
+	public init?(data: NSData, scale: Float = 1.0) {
+		guard let dataString = String(data: data, encoding: NSUTF8StringEncoding)?.componentsSeparatedByString("\n") else {
 			return nil
 		}
 		
-		// iterate through the file and add in vertices and faces
-		while let line = stream.nextLine() {
+		for line in dataString {
 			// check if the line is a comment
 			if line.hasPrefix("#") {
 			}
@@ -89,7 +98,7 @@ public class Manifold {
 				
 				assert(values.count == 3)
 				
-				let x = values[0] * scale, y = values[1] * scale, z = values[2] * scale
+				let x = values[0], y = values[1], z = values[2]
 				
 				if x < AABB.min.x {
 					AABB.min.x = x
@@ -112,6 +121,12 @@ public class Manifold {
 				vertices.append(Vertex(pos: float3(x, y, z)))
 			}
 				
+			else if line.hasPrefix("vn ") { }
+				
+			else if line.hasPrefix("vt ") { }
+				
+			else if line.hasPrefix("vp ") { }
+				
 			// Check for faces
 			else if line.hasPrefix("f ") {
 				var vertexList = [Vertex]()
@@ -124,12 +139,16 @@ public class Manifold {
 				
 				addFace(vertexList)
 			}
+				
+			else if line.trim != "" {
+				return nil
+			}
 		}
-		
-		stream.close()
 	}
 	
 	internal func addFace(vertexList: [Vertex]) {
+		/// Checks if there exists an edge between two vertices already,
+		/// returns existing edge if so, or creates one and returns it.
 		func getEdge(v1: Vertex, _ v2: Vertex) -> Edge {
 			let hashValue = v1.hashValue ^ v2.hashValue
 			
@@ -149,23 +168,21 @@ public class Manifold {
 		
 		var first: Halfedge?, prev: Halfedge?
 		
-		for (this, next) in zip(vertexList, rotatedList) {
-			let e = getEdge(this, next)
+		for (v1, v2) in zip(vertexList, rotatedList) {
+			let e = getEdge(v1, v2)
 			
-			halfedges.append(Halfedge(f: faces.last!, e: e, o: this, prev: prev, flip: e.he))
+			halfedges.append(Halfedge(f: faces.last!, e: e, o: v1, prev: prev, flip: e.he))
 			
-			if this !== vertexList.first! {
+			if v1 !== vertexList.first! {
 				prev!.next = halfedges.last!
 			}
 			
-			if e.he != nil {
-				e.he!.flip = halfedges.last!
-			}
+			e.he?.flip = halfedges.last!
 			
 			prev = halfedges.last
 			e.he = prev!
 			
-			if this === vertexList.first! {
+			if v1 === vertexList.first! {
 				first = prev
 			}
 			
@@ -173,12 +190,12 @@ public class Manifold {
 		}
 		
 		prev!.next = first
-		faces.last!.he = halfedges.last
+		faces.last!.he = first!
 		first!.prev = halfedges.last
 	}
 }
 
-extension Manifold {
+extension Mesh {
 	public func generateSCNGeometry() -> SCNGeometry {
 		var points: [SCNVector3] = []
 		var normalVectors: [SCNVector3] = []
@@ -213,5 +230,41 @@ extension Manifold {
 		let scnNormals = SCNGeometrySource(vertices: normalVectors, count: normalVectors.count)
 		
 		return SCNGeometry(sources: [scnVertices, scnNormals], elements: scnFaces)
+	}
+}
+
+extension Mesh {
+	public var data : NSMutableData {
+		let meshData = NSMutableData()
+		
+		meshData.appendData("# \(vertices.count) vertices, \(faces.count) faces\n".dataUsingEncoding(NSUTF8StringEncoding)!)
+		
+		var index = 1
+		var backTrace: [Vertex : Int] = [:]
+		
+		for vertex in vertices {
+			guard let vertexData = vertex.data else {
+				print("Error on vertex \(index)")
+				return NSMutableData()
+			}
+			
+			meshData.appendData(vertexData)
+			backTrace[vertex] = index
+			index = index + 1
+		}
+		
+		for face in faces {
+			var output = "f"
+			
+			for vertex in face.vertices {
+				output += " \(backTrace[vertex]!)"
+			}
+			
+			output += "\n"
+			
+			meshData.appendData(output.dataUsingEncoding(NSUTF8StringEncoding)!)
+		}
+		
+		return meshData
 	}
 }
