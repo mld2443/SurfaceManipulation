@@ -2,7 +2,7 @@ import Foundation
 import SceneKit
 import simd
 
-public class Manifold {
+public class Mesh {
 	internal var faces = [Face]()
 	internal var edges = [Edge]()
 	internal var vertices = [Vertex]()
@@ -16,15 +16,6 @@ public class Manifold {
 	internal var edgeHash = [Int: Edge]()
 	
 	public lazy var valid: Bool = {
-		for vertex in self.vertices {
-			if vertex.he == nil {
-				return false
-			}
-			if vertex.he!.o !== vertex {
-				return false
-			}
-		}
-		
 		for face in self.faces {
 			if face.he == nil {
 				return false
@@ -39,6 +30,23 @@ public class Manifold {
 				
 				edge = edge.next!
 			} while edge !== face.he!
+		}
+		
+		return true
+	}()
+	
+	public lazy var manifold: Bool = {
+		if !self.valid {
+			return false
+		}
+		
+		for vertex in self.vertices {
+			if vertex.he == nil {
+				return false
+			}
+			if vertex.he!.o !== vertex {
+				return false
+			}
 		}
 		
 		for halfedge in self.halfedges {
@@ -187,7 +195,7 @@ public class Manifold {
 	}
 }
 
-extension Manifold {
+extension Mesh {
 	public func generateSCNGeometry() -> SCNGeometry {
 		var points: [SCNVector3] = []
 		var normalVectors: [SCNVector3] = []

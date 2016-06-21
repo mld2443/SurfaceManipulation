@@ -11,11 +11,11 @@ import simd
 
 enum FileIOError: ErrorType {
 	case InvalidFileEncoding
-	case InvalidManifold
+	case InvalidMesh
 }
 
 class Document: NSDocument {
-	var shape = Manifold()
+	var shape = Mesh()
 	
 	override init() {
 	    super.init()
@@ -40,12 +40,12 @@ class Document: NSDocument {
 	}
 
 	override func readFromData(data: NSData, ofType typeName: String) throws {
-		guard let shape = Manifold(data: data) else {
+		guard let shape = Mesh(data: data) else {
 			throw FileIOError.InvalidFileEncoding
 		}
 		
 		if !shape.valid {
-			throw FileIOError.InvalidManifold
+			throw FileIOError.InvalidMesh
 		}
 		
 		self.shape = shape

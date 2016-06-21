@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C91DD08A1D05B1FE0086EC53 /* Halfedge.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91DD0891D05B1FE0086EC53 /* Halfedge.swift */; };
-		C91DD08E1D05B2070086EC53 /* Manifold.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91DD08B1D05B2070086EC53 /* Manifold.swift */; };
+		C91DD08E1D05B2070086EC53 /* Mesh.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91DD08B1D05B2070086EC53 /* Mesh.swift */; };
 		C91DD0921D05B20C0086EC53 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91DD0911D05B20C0086EC53 /* Extensions.swift */; };
 		C97D83BC1D0592D800CC40E0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97D83BB1D0592D800CC40E0 /* AppDelegate.swift */; };
 		C97D83C01D0592D800CC40E0 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97D83BF1D0592D800CC40E0 /* Document.swift */; };
@@ -31,7 +31,7 @@
 
 /* Begin PBXFileReference section */
 		C91DD0891D05B1FE0086EC53 /* Halfedge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Halfedge.swift; sourceTree = "<group>"; };
-		C91DD08B1D05B2070086EC53 /* Manifold.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Manifold.swift; sourceTree = "<group>"; };
+		C91DD08B1D05B2070086EC53 /* Mesh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mesh.swift; sourceTree = "<group>"; };
 		C91DD0911D05B20C0086EC53 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		C97D83B81D0592D800CC40E0 /* SurfaceManipulation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SurfaceManipulation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C97D83BB1D0592D800CC40E0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -68,7 +68,7 @@
 			isa = PBXGroup;
 			children = (
 				C91DD0891D05B1FE0086EC53 /* Halfedge.swift */,
-				C91DD08B1D05B2070086EC53 /* Manifold.swift */,
+				C91DD08B1D05B2070086EC53 /* Mesh.swift */,
 			);
 			name = Manifold;
 			sourceTree = "<group>";
@@ -226,7 +226,7 @@
 			files = (
 				C91DD08A1D05B1FE0086EC53 /* Halfedge.swift in Sources */,
 				C91DD0921D05B20C0086EC53 /* Extensions.swift in Sources */,
-				C91DD08E1D05B2070086EC53 /* Manifold.swift in Sources */,
+				C91DD08E1D05B2070086EC53 /* Mesh.swift in Sources */,
 				C97D83DD1D0592F900CC40E0 /* SceneView.swift in Sources */,
 				C97D83DC1D0592F900CC40E0 /* SceneViewController.swift in Sources */,
 				C97D83BC1D0592D800CC40E0 /* AppDelegate.swift in Sources */,
