@@ -1,7 +1,41 @@
+//
+//  Mesh.swift
+//  SurfaceManipulation
+//
+//  Created by Matthew Dillard on 6/6/16.
+//  Copyright © 2016 Matthew Dillard. All rights reserved.
+//
+
 import Foundation
 import SceneKit
 import simd
 
+struct UnorderedPair<T: protocol<Hashable, Comparable>> {
+	let a, b: T
+	
+	init(a: T, b: T) {
+		if a < b {
+			self.a = a
+			self.b = b
+		} else {
+			self.a = b
+			self.b = a
+		}
+	}
+}
+
+extension UnorderedPair: Hashable {
+	var hashValue : Int { return a.hashValue &* 31 &+ b.hashValue }
+}
+
+// comparison function for conforming to Equatable protocol
+func ==<T>(lhs: UnorderedPair<T>, rhs: UnorderedPair<T>) -> Bool {
+	return lhs.a == rhs.a && lhs.b == rhs.b
+}
+
+
+/// A mesh is responsible for creating and manipulating a complex web of
+/// halfedges using surface simplification and subdivision algorithms.
 public class Mesh {
 	internal var faces = [Face]()
 	internal var edges = [Edge]()
@@ -13,38 +47,50 @@ public class Mesh {
 		return mix(self.AABB.min, self.AABB.max, t: 0.5)
 	}()
 	
-	internal var edgeHash = [Int: Edge]()
+	internal var edgeHash = Dictionary<UnorderedPair<Int>, (edge: Edge, count: Int)>()
 	
+	/// Tells us if the mesh has any faces which are incomplete
 	public lazy var valid: Bool = {
 		for face in self.faces {
-			if face.he == nil {
+			if face.halfedge == nil {
 				return false
 			}
 			
-			var edge = face.he!
+			var edge = face.halfedge!
 			
 			repeat {
-				if edge.f !== face {
+				if edge.face !== face {
 					return false
 				}
 				
 				edge = edge.next!
-			} while edge !== face.he!
+			} while edge !== face.halfedge!
 		}
 		
 		return true
 	}()
 	
+	public lazy var polyhedralFormula: Int = {
+		return self.vertices.count + self.faces.count - self.edges.count
+	}()
+	
+	/// Indicates whether the surface is a topological 2-manifold (within reason)
 	public lazy var manifold: Bool = {
 		if !self.valid {
 			return false
 		}
 		
-		for vertex in self.vertices {
-			if vertex.he == nil {
+		for (hash, (edge: _, count: count)) in self.edgeHash {
+			if count != 2 {
 				return false
 			}
-			if vertex.he!.o !== vertex {
+		}
+		
+		for vertex in self.vertices {
+			if vertex.halfedge == nil {
+				return false
+			}
+			if vertex.halfedge!.vertex !== vertex {
 				return false
 			}
 		}
@@ -65,28 +111,37 @@ public class Mesh {
 		}
 		
 		for edge in self.edges {
-			if edge.he == nil {
+			if edge.halfedge == nil {
 				return false
 			}
-			if edge.he!.e !== edge {
+			if edge.halfedge!.edge !== edge {
 				return false
 			}
-			if edge.he!.flip!.e !== edge {
+			if edge.halfedge!.flip!.edge !== edge {
 				return false
 			}
+		}
+		
+		if self.polyhedralFormula != 2 {
+			return false
 		}
 		
 		return true
 	}()
 	
+	/// Builds an empty mesh
 	public init() { }
 	
+	/// Load a mesh from NSData
+	/// - parameters:
+	///   - data: OBJ formatted
+	///   - scale: Multiple with which to scale the loaded object
 	public init?(data: NSData, scale: Float = 1.0) {
-		guard let dataString = String(data: data, encoding: NSUTF8StringEncoding)?.componentsSeparatedByString("\n") else {
+		guard let stream = DataStreamReader(data: data, chunkSize: 16) else {
 			return nil
 		}
 		
-		for line in dataString {
+		while let line = stream.nextLine() {
 			// check if the line is a comment
 			if line.hasPrefix("#") {
 			}
@@ -127,11 +182,12 @@ public class Mesh {
 				
 			else if line.hasPrefix("vp ") { }
 				
-			// Check for faces
 			else if line.hasPrefix("f ") {
 				var vertexList = [Vertex]()
 				let start = line.startIndex.advancedBy(1), end = line.endIndex
-				let indices = line[start..<end].trim.componentsSeparatedByString(" ").map({ Int($0)! - 1 })
+				let stringIndices = line[start..<end].trim.componentsSeparatedByString(" ")
+				let cleanedIndices = stringIndices.map({ $0.cutOffAfterString("/") })
+				let indices = cleanedIndices.map({ Int($0)! - 1 })
 				
 				for index in indices {
 					vertexList.append(vertices[index])
@@ -146,18 +202,20 @@ public class Mesh {
 		}
 	}
 	
+	/// Adds a single face and associated halfedges (and edges where necessary).
 	internal func addFace(vertexList: [Vertex]) {
 		/// Checks if there exists an edge between two vertices already,
 		/// returns existing edge if so, or creates one and returns it.
 		func getEdge(v1: Vertex, _ v2: Vertex) -> Edge {
-			let hashValue = v1.hashValue ^ v2.hashValue
+			let hashValue = UnorderedPair(a: v1.hashValue, b: v2.hashValue)
 			
-			if let edge = edgeHash[hashValue] {
-				return edge
+			if let entry = edgeHash[hashValue] {
+				edgeHash[hashValue] = (entry.edge, entry.count + 1)
+				return entry.edge
 			}
 			
 			edges.append(Edge())
-			edgeHash[hashValue] = edges.last!
+			edgeHash[hashValue] = (edges.last!, 1)
 			
 			return edges.last!
 		}
@@ -169,33 +227,34 @@ public class Mesh {
 		var first: Halfedge?, prev: Halfedge?
 		
 		for (v1, v2) in zip(vertexList, rotatedList) {
-			let e = getEdge(v1, v2)
+			let edge = getEdge(v1, v2)
 			
-			halfedges.append(Halfedge(f: faces.last!, e: e, o: v1, prev: prev, flip: e.he))
+			halfedges.append(Halfedge(face: faces.last!, edge: edge, vertex: v1, prev: prev, flip: edge.halfedge))
 			
 			if v1 !== vertexList.first! {
 				prev!.next = halfedges.last!
 			}
 			
-			e.he?.flip = halfedges.last!
+			edge.halfedge?.flip = halfedges.last!
 			
 			prev = halfedges.last
-			e.he = prev!
+			edge.halfedge = prev!
 			
 			if v1 === vertexList.first! {
 				first = prev
 			}
 			
-			prev!.o.he = prev
+			prev!.vertex.halfedge = prev
 		}
 		
 		prev!.next = first
-		faces.last!.he = first!
+		faces.last!.halfedge = first!
 		first!.prev = halfedges.last
 	}
 }
 
 extension Mesh {
+	/// Generates a sceneKit geometry object for drawing a mesh in SceneKit
 	public func generateSCNGeometry() -> SCNGeometry {
 		var points: [SCNVector3] = []
 		var normalVectors: [SCNVector3] = []
@@ -213,6 +272,8 @@ extension Mesh {
 			var indices: [CInt] = []
 			var step = 0
 			
+			// Scenekit makes this needlessly complicated, my points come in order, but to get
+			// the triangles to draw correctly, I need to shuffle back and forth like this.
 			for index in 0..<count {
 				if index % 2 == 0 {
 					indices.append(CInt(startIndex + count - step - 1))
@@ -234,6 +295,7 @@ extension Mesh {
 }
 
 extension Mesh {
+	/// Generates an output data file for saving a mesh to disk.
 	public var data : NSMutableData {
 		let meshData = NSMutableData()
 		
