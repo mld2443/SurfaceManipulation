@@ -59,6 +59,10 @@ extension String {
 	public var trim: String {
 		return self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
 	}
+	
+	public func cutOffAfterString(marker: String) -> String {
+		return self.substringToIndex(self.rangeOfString(marker)?.indices.first ?? self.endIndex)
+	}
 }
 
 

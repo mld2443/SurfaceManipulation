@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C9061EE81D19176000B94D4E /* DataStreamReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9061EE71D19176000B94D4E /* DataStreamReader.swift */; };
+		C9061EEE1D1A202000B94D4E /* armadillo.obj in Resources */ = {isa = PBXBuildFile; fileRef = C9061EED1D1A202000B94D4E /* armadillo.obj */; };
 		C91DD08A1D05B1FE0086EC53 /* Halfedge.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91DD0891D05B1FE0086EC53 /* Halfedge.swift */; };
 		C91DD08E1D05B2070086EC53 /* Mesh.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91DD08B1D05B2070086EC53 /* Mesh.swift */; };
 		C91DD0921D05B20C0086EC53 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91DD0911D05B20C0086EC53 /* Extensions.swift */; };
@@ -14,9 +16,11 @@
 		C97D83C01D0592D800CC40E0 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97D83BF1D0592D800CC40E0 /* Document.swift */; };
 		C97D83C21D0592D800CC40E0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C97D83C11D0592D800CC40E0 /* Assets.xcassets */; };
 		C97D83C51D0592D800CC40E0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C97D83C31D0592D800CC40E0 /* Main.storyboard */; };
-		C97D83D01D0592D800CC40E0 /* SurfaceManipulationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97D83CF1D0592D800CC40E0 /* SurfaceManipulationTests.swift */; };
+		C97D83D01D0592D800CC40E0 /* MeshTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97D83CF1D0592D800CC40E0 /* MeshTests.swift */; };
 		C97D83DC1D0592F900CC40E0 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97D83DA1D0592F900CC40E0 /* SceneViewController.swift */; };
 		C97D83DD1D0592F900CC40E0 /* SceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97D83DB1D0592F900CC40E0 /* SceneView.swift */; };
+		C9ED22D31D18FE2A00162BC7 /* icosahedron.obj in Resources */ = {isa = PBXBuildFile; fileRef = C9ED22D21D18FE2A00162BC7 /* icosahedron.obj */; };
+		C9ED22D51D18FE3800162BC7 /* dodecahedron.obj in Resources */ = {isa = PBXBuildFile; fileRef = C9ED22D41D18FE3800162BC7 /* dodecahedron.obj */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,6 +34,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C9061EE71D19176000B94D4E /* DataStreamReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStreamReader.swift; sourceTree = "<group>"; };
+		C9061EED1D1A202000B94D4E /* armadillo.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = armadillo.obj; sourceTree = "<group>"; };
 		C91DD0891D05B1FE0086EC53 /* Halfedge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Halfedge.swift; sourceTree = "<group>"; };
 		C91DD08B1D05B2070086EC53 /* Mesh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mesh.swift; sourceTree = "<group>"; };
 		C91DD0911D05B20C0086EC53 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -40,10 +46,12 @@
 		C97D83C41D0592D800CC40E0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C97D83C61D0592D800CC40E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C97D83CB1D0592D800CC40E0 /* SurfaceManipulationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SurfaceManipulationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		C97D83CF1D0592D800CC40E0 /* SurfaceManipulationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurfaceManipulationTests.swift; sourceTree = "<group>"; };
+		C97D83CF1D0592D800CC40E0 /* MeshTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshTests.swift; sourceTree = "<group>"; };
 		C97D83D11D0592D800CC40E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C97D83DA1D0592F900CC40E0 /* SceneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneViewController.swift; sourceTree = "<group>"; };
 		C97D83DB1D0592F900CC40E0 /* SceneView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneView.swift; sourceTree = "<group>"; };
+		C9ED22D21D18FE2A00162BC7 /* icosahedron.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = icosahedron.obj; sourceTree = "<group>"; };
+		C9ED22D41D18FE3800162BC7 /* dodecahedron.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dodecahedron.obj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +85,7 @@
 			isa = PBXGroup;
 			children = (
 				C91DD0911D05B20C0086EC53 /* Extensions.swift */,
+				C9061EE71D19176000B94D4E /* DataStreamReader.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -118,10 +127,21 @@
 		C97D83CE1D0592D800CC40E0 /* SurfaceManipulationTests */ = {
 			isa = PBXGroup;
 			children = (
-				C97D83CF1D0592D800CC40E0 /* SurfaceManipulationTests.swift */,
+				C9ED22D81D19005A00162BC7 /* Test objects */,
+				C97D83CF1D0592D800CC40E0 /* MeshTests.swift */,
 				C97D83D11D0592D800CC40E0 /* Info.plist */,
 			);
 			path = SurfaceManipulationTests;
+			sourceTree = "<group>";
+		};
+		C9ED22D81D19005A00162BC7 /* Test objects */ = {
+			isa = PBXGroup;
+			children = (
+				C9ED22D21D18FE2A00162BC7 /* icosahedron.obj */,
+				C9ED22D41D18FE3800162BC7 /* dodecahedron.obj */,
+				C9061EED1D1A202000B94D4E /* armadillo.obj */,
+			);
+			name = "Test objects";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -214,6 +234,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9061EEE1D1A202000B94D4E /* armadillo.obj in Resources */,
+				C9ED22D31D18FE2A00162BC7 /* icosahedron.obj in Resources */,
+				C9ED22D51D18FE3800162BC7 /* dodecahedron.obj in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -228,6 +251,7 @@
 				C91DD0921D05B20C0086EC53 /* Extensions.swift in Sources */,
 				C91DD08E1D05B2070086EC53 /* Mesh.swift in Sources */,
 				C97D83DD1D0592F900CC40E0 /* SceneView.swift in Sources */,
+				C9061EE81D19176000B94D4E /* DataStreamReader.swift in Sources */,
 				C97D83DC1D0592F900CC40E0 /* SceneViewController.swift in Sources */,
 				C97D83BC1D0592D800CC40E0 /* AppDelegate.swift in Sources */,
 				C97D83C01D0592D800CC40E0 /* Document.swift in Sources */,
@@ -238,7 +262,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C97D83D01D0592D800CC40E0 /* SurfaceManipulationTests.swift in Sources */,
+				C97D83D01D0592D800CC40E0 /* MeshTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
