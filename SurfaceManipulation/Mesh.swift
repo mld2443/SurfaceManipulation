@@ -186,8 +186,8 @@ public class Mesh {
 				var vertexList = [Vertex]()
 				let start = line.startIndex.advancedBy(1), end = line.endIndex
 				let stringIndices = line[start..<end].trim.componentsSeparatedByString(" ")
-				let cleanedIndices = stringIndices.map({ $0.cutOffAfterString("/") })
-				let indices = cleanedIndices.map({ Int($0)! - 1 })
+				//let cleanedIndices = stringIndices.map({ $0.cutOffAfterString("/") })
+				let indices = stringIndices.map({ Int($0)! - 1 })
 				
 				for index in indices {
 					vertexList.append(vertices[index])

@@ -47,7 +47,7 @@ class MeshTests: XCTestCase {
 	}
 	
 	func testLoadArmadilloPerformance() {
-		let data = fetchFileFromBundle("teeth", type: "obj")
+		let data = fetchFileFromBundle("armadillo", type: "obj")
 		
 		self.measureBlock {
 			let mesh = Mesh(data: data)
