@@ -19,6 +19,8 @@
 		C97D83D01D0592D800CC40E0 /* MeshTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97D83CF1D0592D800CC40E0 /* MeshTests.swift */; };
 		C97D83DC1D0592F900CC40E0 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97D83DA1D0592F900CC40E0 /* SceneViewController.swift */; };
 		C97D83DD1D0592F900CC40E0 /* SceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97D83DB1D0592F900CC40E0 /* SceneView.swift */; };
+		C9BAC58C1D259DF300E779B8 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BAC58B1D259DF300E779B8 /* GameViewController.swift */; };
+		C9BAC58E1D259E2000E779B8 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = C9BAC58D1D259E2000E779B8 /* Shaders.metal */; };
 		C9ED22D31D18FE2A00162BC7 /* icosahedron.obj in Resources */ = {isa = PBXBuildFile; fileRef = C9ED22D21D18FE2A00162BC7 /* icosahedron.obj */; };
 		C9ED22D51D18FE3800162BC7 /* dodecahedron.obj in Resources */ = {isa = PBXBuildFile; fileRef = C9ED22D41D18FE3800162BC7 /* dodecahedron.obj */; };
 /* End PBXBuildFile section */
@@ -50,6 +52,8 @@
 		C97D83D11D0592D800CC40E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C97D83DA1D0592F900CC40E0 /* SceneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneViewController.swift; sourceTree = "<group>"; };
 		C97D83DB1D0592F900CC40E0 /* SceneView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneView.swift; sourceTree = "<group>"; };
+		C9BAC58B1D259DF300E779B8 /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		C9BAC58D1D259E2000E779B8 /* Shaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
 		C9ED22D21D18FE2A00162BC7 /* icosahedron.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = icosahedron.obj; sourceTree = "<group>"; };
 		C9ED22D41D18FE3800162BC7 /* dodecahedron.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dodecahedron.obj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -111,6 +115,7 @@
 		C97D83BA1D0592D800CC40E0 /* SurfaceManipulation */ = {
 			isa = PBXGroup;
 			children = (
+				C9BAC56D1D2593A000E779B8 /* Metal */,
 				C91DD0941D05B2B60086EC53 /* Utility */,
 				C91DD0931D05B2A30086EC53 /* Manifold */,
 				C97D83BB1D0592D800CC40E0 /* AppDelegate.swift */,
@@ -132,6 +137,15 @@
 				C97D83D11D0592D800CC40E0 /* Info.plist */,
 			);
 			path = SurfaceManipulationTests;
+			sourceTree = "<group>";
+		};
+		C9BAC56D1D2593A000E779B8 /* Metal */ = {
+			isa = PBXGroup;
+			children = (
+				C9BAC58B1D259DF300E779B8 /* GameViewController.swift */,
+				C9BAC58D1D259E2000E779B8 /* Shaders.metal */,
+			);
+			name = Metal;
 			sourceTree = "<group>";
 		};
 		C9ED22D81D19005A00162BC7 /* Test objects */ = {
@@ -251,6 +265,8 @@
 				C91DD0921D05B20C0086EC53 /* Extensions.swift in Sources */,
 				C91DD08E1D05B2070086EC53 /* Mesh.swift in Sources */,
 				C97D83DD1D0592F900CC40E0 /* SceneView.swift in Sources */,
+				C9BAC58E1D259E2000E779B8 /* Shaders.metal in Sources */,
+				C9BAC58C1D259DF300E779B8 /* GameViewController.swift in Sources */,
 				C9061EE81D19176000B94D4E /* DataStreamReader.swift in Sources */,
 				C97D83DC1D0592F900CC40E0 /* SceneViewController.swift in Sources */,
 				C97D83BC1D0592D800CC40E0 /* AppDelegate.swift in Sources */,
