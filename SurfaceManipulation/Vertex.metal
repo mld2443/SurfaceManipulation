@@ -1,6 +1,6 @@
 //
-//  Shaders.metal
-//  MetalRenderer
+//  Vertex.metal
+//  SurfaceManipulation
 //
 //  Created by Matthew Dillard on 6/30/16.
 //  Copyright (c) 2016 Matthew Dillard. All rights reserved.
@@ -26,9 +26,4 @@ vertex VertexInOut passThroughVertex(uint vid [[ vertex_id ]],
     outVertex.color    = color[vid];
     
     return outVertex;
-};
-
-fragment half4 passThroughFragment(VertexInOut inFrag [[stage_in]])
-{
-    return half4(inFrag.color);
 };
