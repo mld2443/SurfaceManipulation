@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import MetalKit
 import simd
 
 let vertexData:[float4] = [
@@ -38,7 +39,6 @@ let vertexColorData:[float4] = [
 ]
 
 class GameViewController: NSViewController, MetalControllerDelegate {
-	
 	var document: Document?
 	
 	let metalController: MetalController! = MetalController()
@@ -46,21 +46,31 @@ class GameViewController: NSViewController, MetalControllerDelegate {
 	override func viewWillAppear() {
 		super.viewWillAppear()
 		
-		// identify over the document
-		let view = self.view
-		let window = view.window
-		let windowController = window?.windowController
-		document = windowController?.document as? Document
+		// identify the document
+		document = self.view.window?.windowController?.document as? Document
 	}
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		guard metalController != nil else { // Fallback to a blank NSView, an application could also fallback to OpenGL here.
-			print("Metal is not supported on this device")
-			self.view = NSView(frame: self.view.frame)
+		guard metalController != nil else {
+			let view = NSTextView(frame: self.view.frame)
+			view.string = "Metal cloud not configure properly."
+			view.editable = false
+			view.selectable = false
+			view.drawsBackground = false
+			
+			self.view = view
 			return
 		}
+		
+		self.metalController.delegate = self
+		
+		// setup view properties
+		let view = self.view as! MTKView
+		view.delegate = self.metalController
+		view.device = self.metalController.device
+		view.sampleCount = 4
 	}
 	
 	func getVertices() -> [float4] {

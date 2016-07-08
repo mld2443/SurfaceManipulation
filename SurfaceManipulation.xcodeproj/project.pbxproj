@@ -98,6 +98,15 @@
 			name = Utility;
 			sourceTree = "<group>";
 		};
+		C941CFC81D2EFEAC00232638 /* Shaders */ = {
+			isa = PBXGroup;
+			children = (
+				C9BAC58D1D259E2000E779B8 /* Vertex.metal */,
+				C941CFC61D2EFD1500232638 /* Fragment.metal */,
+			);
+			name = Shaders;
+			sourceTree = "<group>";
+		};
 		C97D83AF1D0592D800CC40E0 = {
 			isa = PBXGroup;
 			children = (
@@ -148,8 +157,7 @@
 			children = (
 				C9BAC58B1D259DF300E779B8 /* GameViewController.swift */,
 				C941CFC41D2EF2AF00232638 /* MetalController.swift */,
-				C9BAC58D1D259E2000E779B8 /* Vertex.metal */,
-				C941CFC61D2EFD1500232638 /* Fragment.metal */,
+				C941CFC81D2EFEAC00232638 /* Shaders */,
 			);
 			name = Metal;
 			sourceTree = "<group>";

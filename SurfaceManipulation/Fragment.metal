@@ -9,7 +9,13 @@
 #include <metal_stdlib>
 using namespace metal;
 
-fragment half4 passThroughFragment(VertexInOut inFrag [[stage_in]])
+struct VertexInOut
+{
+	float4  position [[position]];
+	float4  color;
+};
+
+fragment half4 fragmentShader(VertexInOut inFrag [[stage_in]])
 {
 	return half4(inFrag.color);
 };
